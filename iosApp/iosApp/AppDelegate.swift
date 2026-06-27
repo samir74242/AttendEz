@@ -3,7 +3,6 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
