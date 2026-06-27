@@ -12,7 +12,6 @@ workflows:
       vars:
         PACKAGE_NAME: "com.aistudio.attendez"
       java: 17
-      android_gradle: 8.2
     triggering:
       events:
         - push
