@@ -1,0 +1,100 @@
+# Codemagic CI/CD configuration for AttendEz Cross-Platform (Android & iOS)
+# Reference: https://docs.codemagic.io/
+
+workflows:
+  android-workflow:
+    name: AttendEz Android Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - keystore_credentials # Define your Keystore variables here if signing
+      vars:
+        PACKAGE_NAME: "com.aistudio.attendez"
+      java: 17
+      android_gradle: 8.2
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    scripts:
+      - name: Set up local.properties or env secrets
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Build Android App (Assemble Debug APK)
+        script: |
+          ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/apk/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - raadwik74242@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  ios-workflow:
+    name: AttendEz iOS Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - apple_credentials # Define APP_STORE_CONNECT_KEY, CERTIFICATE_PRIVATE_KEY in Codemagic UI
+      vars:
+        XCODE_PROJECT: "iosApp/iosApp.xcodeproj"
+        XCODE_SCHEME: "iosApp"
+        BUNDLE_ID: "com.aistudio.attendez"
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    scripts:
+      - name: Install CocoaPods Dependencies
+        script: |
+          cd iosApp
+          pod install
+      - name: Set up Firebase iOS configuration
+        script: |
+          # Copy real GoogleService-Info.plist if available, or use placeholder
+          if [ -f "iosApp/iosApp/GoogleService-Info.plist" ]; then
+            echo "Using provided Firebase iOS Configuration."
+          else
+            echo "Warning: GoogleService-Info.plist missing. Building with placeholder config."
+          fi
+      - name: Initialize keychain and certificates for iOS Signing
+        script: |
+          keychain initialize
+          # Optional: fetch profiles from Apple Developer portal if API key group is set up:
+          # app-store-connect fetch-signing-files "$BUNDLE_ID" --project-type ios
+          # keychain add-certificates
+      - name: Build iOS Application (Simulator / Debug)
+        script: |
+          xcodebuild \
+            -workspace iosApp/iosApp.xcworkspace \
+            -scheme "$XCODE_SCHEME" \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+    artifacts:
+      - iosApp/build/ios/iphonesimulator/*.app
+    publishing:
+      email:
+        recipients:
+          - raadwik74242@gmail.com
+        notify:
+          success: true
+          failure: true

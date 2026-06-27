@@ -1,0 +1,6 @@
+{
+  "name": "AttendEz",
+  "description": "Smart attendance tracking app with screenshot timetable extraction, weekly trend views, prediction calculator, and offline-first storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
