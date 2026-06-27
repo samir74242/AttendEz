@@ -12,9 +12,4 @@ target 'iosApp' do
   
   # Swift equivalent for Firebase AI/Vertex API (Gemini integrations)
   pod 'FirebaseVertexAI', '~> 10.24.0'
-
-  # Test utilities
-  target 'iosAppTests' do
-    inherit! :search_paths
-  end
 end

@@ -62,7 +62,7 @@ workflows:
       - name: Install CocoaPods Dependencies
         script: |
           cd iosApp
-          pod install
+          pod install --repo-update
       - name: Set up Firebase iOS configuration
         script: |
           # Copy real GoogleService-Info.plist if available, or use placeholder
