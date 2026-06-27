@@ -105,9 +105,10 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                                 .padding(.top, 6)
                             
-                            ForEach(0..<courses.count, id: \.self) { index in
-                                let course = courses[index]
-                                VStack(alignment: .leading, spacing: 10) {
+                            ForEach(courses.indices, id: \.self) { index in
+                                Group {
+                                    let course = courses[index]
+                                    VStack(alignment: .leading, spacing: 10) {
                                     HStack {
                                         Text(course.name)
                                             .font(.headline)
@@ -203,6 +204,7 @@ struct ContentView: View {
                                 .padding(16)
                                 .background(Color(red: 0.08, green: 0.12, blue: 0.18))
                                 .cornerRadius(16)
+                                }
                             }
                         }
                         .padding(.horizontal, 16)
@@ -328,7 +330,18 @@ struct ContentView: View {
                 .padding(.bottom, 20)
             }
             .padding()
-            .presentationDetents([.height(360)])
+            .presentationDetentsCompat()
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func presentationDetentsCompat() -> some View {
+        if #available(iOS 16.0, *) {
+            self.presentationDetents([.height(360)])
+        } else {
+            self
         }
     }
 }
