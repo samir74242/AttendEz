@@ -5,11 +5,11 @@ use_frameworks!
 
 target 'iosApp' do
   # Firebase SDK components matching Android features
-  pod 'FirebaseCore', '~> 10.24.0'
-  pod 'FirebaseAuth', '~> 10.24.0'
-  pod 'FirebaseDatabase', '~> 10.24.0'
-  pod 'FirebaseMessaging', '~> 10.24.0'
+  pod 'FirebaseCore'
+  pod 'FirebaseAuth'
+  pod 'FirebaseDatabase'
+  pod 'FirebaseMessaging'
   
   # Swift equivalent for Firebase AI/Vertex API (Gemini integrations)
-  pod 'FirebaseVertexAI', '~> 10.24.0'
+  pod 'FirebaseVertexAI'
 end

@@ -44,7 +44,7 @@
 		3B0E85D02BCA3CC000BC18B0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3B0E85BF2BCA3CC000BC18B0 /* iosApp.app */,
+				3B0E85CF2BCA3CC000BC18B0 /* iosApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
