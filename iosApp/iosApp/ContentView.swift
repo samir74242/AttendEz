@@ -336,18 +336,6 @@ struct ContentView: View {
                 .padding(.bottom, 20)
             }
             .padding()
-            .presentationDetentsCompat()
-        }
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func presentationDetentsCompat() -> some View {
-        if #available(iOS 16.0, *) {
-            self.presentationDetents(Set([.height(360)]))
-        } else {
-            self
         }
     }
 }
