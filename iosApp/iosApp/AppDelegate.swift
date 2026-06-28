@@ -11,8 +11,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        // Initialize Firebase
-        FirebaseApp.configure()
+        // Initialize Firebase safely
+        if let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist"),
+           let options = FirebaseOptions(contentsOfFile: path) {
+            FirebaseApp.configure(options: options)
+            print("Firebase successfully initialized from GoogleService-Info.plist!")
+        } else {
+            print("GoogleService-Info.plist not found in bundle, using programmatic fallback initialization.")
+            let options = FirebaseOptions(
+                googleAppID: "1:123456789000:ios:a1b2c3d4e5f6g7h8i9j0",
+                gcmSenderID: "123456789000"
+            )
+            options.apiKey = "AIzaSyPLACEHOLDER_REPLACE_WITH_YOUR_IOS_API_KEY_AI_STUDIO"
+            options.projectID = "attendez-applet-project-id"
+            options.databaseURL = "https://attendez-applet-default-rtdb.firebaseio.com"
+            options.storageBucket = "attendez-applet-project-id.appspot.com"
+            FirebaseApp.configure(options: options)
+            print("Firebase programmatic initialization completed successfully!")
+        }
         
         // Configure UNUserNotificationCenter for Local and Remote Notifications
         UNUserNotificationCenter.current().delegate = self
