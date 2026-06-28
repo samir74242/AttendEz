@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import Foundation
 
 // Local storage model mimicking the Android Room/SharedPreferences structures
 struct LocalCourse: Identifiable, Codable {
@@ -8,6 +9,14 @@ struct LocalCourse: Identifiable, Codable {
     var attended: Int
     var missed: Int
     var targetPercentage: Double = 75.0
+    
+    init(id: UUID = UUID(), name: String, attended: Int, missed: Int, targetPercentage: Double = 75.0) {
+        self.id = id
+        self.name = name
+        self.attended = attended
+        self.missed = missed
+        self.targetPercentage = targetPercentage
+    }
     
     var totalClasses: Int {
         return attended + missed
@@ -336,7 +345,7 @@ extension View {
     @ViewBuilder
     func presentationDetentsCompat() -> some View {
         if #available(iOS 16.0, *) {
-            self.presentationDetents([.height(360)])
+            self.presentationDetents(Set([.height(360)]))
         } else {
             self
         }
