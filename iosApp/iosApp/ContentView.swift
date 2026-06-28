@@ -165,7 +165,7 @@ struct ContentView: View {
     @State private var showingAddSheet = false
     @State private var newCourseName = ""
     @State private var showBiometricsModal = false
-    @State private var selectedCourseIndex: Int?
+    @State private var selectedCourseId: UUID?
     @State private var biometricsStatus = "Scanning..."
     @State private var currentTab = 0
     @State private var totalScore = 1500 // Gamified AttendEz points
@@ -191,6 +191,15 @@ struct ContentView: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
+                                
+                                // Clean iOS 15 header action button
+                                Button(action: { showingAddSheet = true }) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.blue)
+                                }
+                                .padding(.trailing, 4)
+                                
                                 // Gamified points badge
                                 HStack(spacing: 4) {
                                     Text("✨")
@@ -231,18 +240,22 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                                 .padding(.top, 6)
                             
-                            ForEach(courses.indices, id: \.self) { index in
+                            ForEach(courses) { course in
                                 CourseRowView(
-                                    course: courses[index],
+                                    course: course,
                                     onAddAttendance: {
-                                        courses[index].attended += 1
-                                        totalScore += 25
+                                        if let index = courses.firstIndex(where: { $0.id == course.id }) {
+                                            courses[index].attended += 1
+                                            totalScore += 25
+                                        }
                                     },
                                     onAddMiss: {
-                                        courses[index].missed += 1
+                                        if let index = courses.firstIndex(where: { $0.id == course.id }) {
+                                            courses[index].missed += 1
+                                        }
                                     },
                                     onBiometricCheckIn: {
-                                        selectedCourseIndex = index
+                                        selectedCourseId = course.id
                                         biometricsStatus = "Ready for Face ID..."
                                         showBiometricsModal = true
                                     }
@@ -348,7 +361,7 @@ struct ContentView: View {
                     biometricsStatus = "Verifying..."
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                         biometricsStatus = "Success! Attendance Logged."
-                        if let index = selectedCourseIndex {
+                        if let id = selectedCourseId, let index = courses.firstIndex(where: { $0.id == id }) {
                             courses[index].attended += 1
                             totalScore += 100
                         }
