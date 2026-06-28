@@ -84,12 +84,31 @@ workflows:
             -scheme "$XCODE_SCHEME" \
             -sdk iphonesimulator \
             -configuration Debug \
+            -derivedDataPath build \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             clean build
+      - name: Build iOS Application (Device / Release)
+        script: |
+          xcodebuild \
+            -workspace iosApp/iosApp.xcworkspace \
+            -scheme "$XCODE_SCHEME" \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build_device \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+      - name: Package iOS Device Build as IPA
+        script: |
+          mkdir -p build_device/Payload
+          cp -r build_device/Build/Products/Release-iphoneos/iosApp.app build_device/Payload/
+          cd build_device && zip -r iosApp.ipa Payload
     artifacts:
-      - iosApp/build/ios/iphonesimulator/*.app
+      - build/Build/Products/Debug-iphonesimulator/*.app
+      - build_device/*.ipa
     publishing:
       email:
         recipients:
