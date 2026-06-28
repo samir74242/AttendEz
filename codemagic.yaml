@@ -88,7 +88,12 @@ workflows:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=NO \
             clean build
+      - name: Package iOS Simulator Build for Appetize.io
+        script: |
+          cd build/Build/Products/Debug-iphonesimulator
+          zip -r iosApp-simulator.zip iosApp.app
       - name: Build iOS Application (Device / Release)
         script: |
           xcodebuild \
@@ -107,7 +112,7 @@ workflows:
           cp -r build_device/Build/Products/Release-iphoneos/iosApp.app build_device/Payload/
           cd build_device && zip -r iosApp.ipa Payload
     artifacts:
-      - build/Build/Products/Debug-iphonesimulator/*.app
+      - build/Build/Products/Debug-iphonesimulator/iosApp-simulator.zip
       - build_device/*.ipa
     publishing:
       email:
