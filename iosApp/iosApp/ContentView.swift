@@ -72,8 +72,7 @@ struct CourseRowView: View {
                     .foregroundColor(.white)
                 Spacer()
                 Text("\(course.attendanceRateString)%")
-                    .font(.subheadline)
-                    .fontWeight(.black)
+                    .font(.subheadline.weight(.black))
                     .foregroundColor(course.isPassing ? .green : .red)
             }
             
@@ -106,8 +105,7 @@ struct CourseRowView: View {
                 // Quick buttons
                 Button(action: onAddAttendance) {
                     Text("+ Attendance")
-                        .font(.caption2)
-                        .fontWeight(.bold)
+                        .font(.caption2.bold())
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(Color.green.opacity(0.15))
@@ -117,8 +115,7 @@ struct CourseRowView: View {
                 
                 Button(action: onAddMiss) {
                     Text("+ Miss")
-                        .font(.caption2)
-                        .fontWeight(.bold)
+                        .font(.caption2.bold())
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(Color.red.opacity(0.15))
@@ -139,8 +136,7 @@ struct CourseRowView: View {
                     Image(systemName: "faceid")
                     Text("Biometric Check-In")
                 }
-                .font(.caption)
-                .fontWeight(.bold)
+                .font(.caption.bold())
                 .foregroundColor(.blue)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
@@ -183,8 +179,7 @@ struct ContentView: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("AttendEz Dashboard")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
+                                        .font(.title2.bold())
                                         .foregroundColor(.white)
                                     Text("Keep your academic streak alive!")
                                         .font(.subheadline)
@@ -204,8 +199,7 @@ struct ContentView: View {
                                 HStack(spacing: 4) {
                                     Text("✨")
                                     Text("\(totalScore) pts")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
+                                        .font(.caption.bold())
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -218,8 +212,7 @@ struct ContentView: View {
                             // Weekly insights banner
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("WEEKLY REFLECTION 📈")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
+                                    .font(.caption.bold())
                                     .foregroundColor(.blue)
                                 Text("Your overall attendance sits at 89.4%. You are safely meeting limits for all courses this week!")
                                     .font(.footnote)
@@ -235,8 +228,7 @@ struct ContentView: View {
                             
                             // Active course list
                             Text("YOUR COURSES")
-                                .font(.caption)
-                                .fontWeight(.bold)
+                                .font(.caption.bold())
                                 .foregroundColor(.gray)
                                 .padding(.top, 6)
                             
@@ -288,8 +280,7 @@ struct ContentView: View {
                     
                     VStack(spacing: 24) {
                         Text("✨ AI Analytics Engine")
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.title2.bold())
                             .foregroundColor(.white)
                         
                         Image(systemName: "sparkles")
@@ -371,7 +362,7 @@ struct ContentView: View {
                     }
                 }) {
                     Text("Verify with Face ID")
-                        .fontWeight(.bold)
+                        .bold()
                         .foregroundColor(.white)
                         .frame(width: 220, height: 48)
                         .background(Color.blue)
