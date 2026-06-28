@@ -106,18 +106,16 @@ struct ContentView: View {
                                 .padding(.top, 6)
                             
                             ForEach(courses.indices, id: \.self) { index in
-                                Group {
-                                    let course = courses[index]
-                                    VStack(alignment: .leading, spacing: 10) {
+                                VStack(alignment: .leading, spacing: 10) {
                                     HStack {
-                                        Text(course.name)
+                                        Text(courses[index].name)
                                             .font(.headline)
                                             .foregroundColor(.white)
                                         Spacer()
-                                        Text("\(String(format: "%.1f", course.attendanceRate))%")
+                                        Text("\(String(format: "%.1f", courses[index].attendanceRate))%")
                                             .font(.subheadline)
                                             .fontWeight(.black)
-                                            .foregroundColor(course.attendanceRate >= course.targetPercentage ? .green : .red)
+                                            .foregroundColor(courses[index].attendanceRate >= courses[index].targetPercentage ? .green : .red)
                                     }
                                     
                                     // Progress bar
@@ -129,8 +127,8 @@ struct ContentView: View {
                                                 .foregroundColor(.gray)
                                             
                                             Rectangle()
-                                                .frame(width: geo.size.width * CGFloat(min(1.0, course.attendanceRate / 100.0)), height: 8)
-                                                .foregroundColor(course.attendanceRate >= course.targetPercentage ? .green : .red)
+                                                .frame(width: geo.size.width * CGFloat(min(1.0, courses[index].attendanceRate / 100.0)), height: 8)
+                                                .foregroundColor(courses[index].attendanceRate >= courses[index].targetPercentage ? .green : .red)
                                         }
                                         .cornerRadius(4)
                                     }
@@ -138,10 +136,10 @@ struct ContentView: View {
                                     
                                     // Attend/Miss counters
                                     HStack(spacing: 12) {
-                                        Text("Attended: \(course.attended)")
+                                        Text("Attended: \(courses[index].attended)")
                                             .font(.caption)
                                             .foregroundColor(.green)
-                                        Text("Missed: \(course.missed)")
+                                        Text("Missed: \(courses[index].missed)")
                                             .font(.caption)
                                             .foregroundColor(.red)
                                         Spacer()
@@ -175,7 +173,7 @@ struct ContentView: View {
                                         }
                                     }
                                     
-                                    Text(course.statusMessage)
+                                    Text(courses[index].statusMessage)
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                         .italic()
@@ -204,7 +202,6 @@ struct ContentView: View {
                                 .padding(16)
                                 .background(Color(red: 0.08, green: 0.12, blue: 0.18))
                                 .cornerRadius(16)
-                                }
                             }
                         }
                         .padding(.horizontal, 16)
